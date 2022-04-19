@@ -1,6 +1,7 @@
 package com.example.sceneproject;
 
 import javafx.application.Application;
+import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -8,10 +9,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -22,8 +20,80 @@ public class SceneFocus extends Application {
         launch(args);
     }
 
-    //Login form
+    private ChoiceBox<String> fruitChoiceBox;
+
+    //Combobox
     @Override
+    public void start(Stage stage) throws Exception {
+        stage.setTitle("Voce");
+        fruitChoiceBox = new ChoiceBox<>();
+        ObservableList<String> observableList = fruitChoiceBox.getItems();
+        observableList.add("Jabuka");
+        observableList.addAll("Limun", "Jagoda", "Kivi");
+        observableList.addAll("Limun", "Jagoda", "Kivi");
+        observableList.addAll("Limun", "Jagoda", "Kivi");
+        observableList.addAll("Limun", "Jagoda", "Kivi");
+        fruitChoiceBox.setValue(observableList.get(0));
+        //selection changes
+        SingleSelectionModel<String> selectionModel = fruitChoiceBox.getSelectionModel();
+        ReadOnlyObjectProperty<String> itemProperty = selectionModel.selectedItemProperty();
+        itemProperty.addListener((observable, oldValue, newValue)->{
+            System.out.println("Pojedena vocka:"+ oldValue+", treba jos pojesti :"+newValue);
+        });
+
+        Button buyButton = new Button("Kupi voce");
+        buyButton.setOnAction(this::handleFruitChoice);
+
+        VBox vBox = new VBox(20);
+        vBox.setPadding(new Insets(20,20,20,20));
+        vBox.getChildren().addAll(fruitChoiceBox, buyButton);
+
+        Scene scene = new Scene(vBox, 300, 250);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    private void handleFruitChoice(Event event) {
+        String fruit = fruitChoiceBox.getValue();
+        System.out.println("Voce je :"+fruit);
+    }
+
+    //Checkbox
+    /*private CheckBox cevapiCheckBox;
+    private CheckBox pizzaCheckBox;
+
+    @Override
+    public void start(Stage stage) throws Exception {
+        stage.setTitle("Narudzba hrane");
+        cevapiCheckBox = new CheckBox("Cevapi");
+        pizzaCheckBox = new CheckBox("Pizza");
+        //pizzaCheckBox.setSelected(true);
+
+        Button orderButton = new Button("Naruci");
+        orderButton.setOnAction(this::handleOrder);
+
+        VBox vBox = new VBox(10);
+        vBox.setPadding(new Insets(10,10,10,10));
+        vBox.getChildren().addAll(cevapiCheckBox, pizzaCheckBox, orderButton);
+
+        Scene scene = new Scene(vBox, 300, 250);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    private void handleOrder(Event event) {
+        String message = "Korisnicka narudzba:"+System.lineSeparator();
+        if(cevapiCheckBox.isSelected()) {
+            message+="Cevapi"+System.lineSeparator();
+        }
+        if(pizzaCheckBox.isSelected()) {
+            message+="Pizza"+System.lineSeparator();
+        }
+        System.out.println(message);
+    }*/
+
+    //Login form
+    /*@Override
     public void start(Stage stage) throws Exception {
         stage.setTitle("JavaFx GridPane");
         GridPane formGridPane = new GridPane();
@@ -56,7 +126,7 @@ public class SceneFocus extends Application {
         Scene scene = new Scene(formGridPane, 300, 250);
         stage.setScene(scene);
         stage.show();
-    }
+    }*/
 
 
 
