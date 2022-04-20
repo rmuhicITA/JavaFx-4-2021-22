@@ -1,6 +1,8 @@
 package com.example.sceneproject;
 
 import com.example.sceneproject.controller.ShowController;
+import com.example.sceneproject.dao.ShowDao;
+import com.example.sceneproject.dao.connection.ConnectionPool;
 import com.example.sceneproject.model.Person;
 import com.example.sceneproject.model.Show;
 import javafx.application.Application;
@@ -8,12 +10,16 @@ import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+
+import java.sql.Connection;
+import java.sql.SQLException;
 
 public class SceneFocus extends Application {
 
@@ -22,12 +28,16 @@ public class SceneFocus extends Application {
     }
 
 
-    TableView<Show> showTableView;
+    private TableView<Show> showTableView;
+    private TextField showTitleField;
+    private TextField numOfSeasonsField;
+    private TextField initialYearField;
 
     @Override
     public void start(Stage stage) throws Exception {
         stage.setTitle("Show table in JavaFX");
 
+        //TABELA
         TableColumn<Show, Integer> showIdColumn = new TableColumn<>("Show ID");
         showIdColumn.setCellValueFactory(new PropertyValueFactory<>("showId"));
 
@@ -44,12 +54,62 @@ public class SceneFocus extends Application {
         showTableView.getItems().addAll(new ShowController().loadShows());
         showTableView.getColumns().addAll(showIdColumn, showTitleColumn, showNumOfSeasonsColumn, showInitialYearColumn);
 
+        //FORMA
+        showTitleField = new TextField();
+        showTitleField.setPromptText("Enter show title...");
+        numOfSeasonsField = new TextField();
+        numOfSeasonsField.setPromptText("Enter num of seasons field...");
+        initialYearField = new TextField();
+        initialYearField.setPromptText("Enter initial field...");
+        Button addShowButton = new Button("Add show");
+        addShowButton.setOnAction(this::onAddShowButtonClick);
+        Button deleteShowButton = new Button("Delete");
+        deleteShowButton.setOnAction(this::onDeleteShowButtonClick);
+        HBox forma = new HBox(10);
+        forma.getChildren().addAll(showTitleField, numOfSeasonsField, initialYearField, addShowButton,deleteShowButton);
+        forma.setPadding(new Insets(10,10,10,10));
+
         VBox vBox = new VBox();
-        vBox.getChildren().addAll(showTableView);
+        vBox.getChildren().addAll(showTableView, forma);
 
         Scene scene = new Scene(vBox);
         stage.setScene(scene);
         stage.show();
+    }
+
+    private void onAddShowButtonClick(Event event){
+        //INSERT U BAZU
+        try {
+            ConnectionPool connectionPool = new ConnectionPool();
+            ShowDao showDao = new ShowDao(connectionPool);
+            Show show = new Show();
+            show.setShowTitle(showTitleField.getText());
+            show.setNumOfSeasons(Integer.parseInt(numOfSeasonsField.getText()));
+            show.setInitialYear(Integer.parseInt(initialYearField.getText()));
+            show = showDao.create(show);//sva osim showId
+            //INSERT U TABELU
+            showTableView.getItems().add(show);
+            showTitleField.clear();
+            numOfSeasonsField.clear();
+            initialYearField.clear();
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
+    private void onDeleteShowButtonClick(ActionEvent event) {
+        ObservableList<Show> selectedShows = showTableView.getSelectionModel().getSelectedItems();
+        ObservableList<Show> allShows= showTableView.getItems();
+        try{
+            ConnectionPool connectionPool = new ConnectionPool();
+            ShowDao showDao = new ShowDao(connectionPool);
+            for(Show show : selectedShows){
+                showDao.delete(show);
+            }
+        }catch (SQLException exception){
+            System.err.println(exception.getMessage());
+        }
+        selectedShows.forEach(allShows::remove);
     }
 
     /*private TreeView<String> treeView;
