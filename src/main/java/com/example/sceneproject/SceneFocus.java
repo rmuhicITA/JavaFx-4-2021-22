@@ -1,18 +1,19 @@
 package com.example.sceneproject;
 
+import com.example.sceneproject.controller.ShowController;
+import com.example.sceneproject.model.Person;
+import com.example.sceneproject.model.Show;
 import javafx.application.Application;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
-import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 public class SceneFocus extends Application {
 
@@ -20,7 +21,153 @@ public class SceneFocus extends Application {
         launch(args);
     }
 
-    private ChoiceBox<String> fruitChoiceBox;
+
+    TableView<Show> showTableView;
+
+    @Override
+    public void start(Stage stage) throws Exception {
+        stage.setTitle("Show table in JavaFX");
+
+        TableColumn<Show, Integer> showIdColumn = new TableColumn<>("Show ID");
+        showIdColumn.setCellValueFactory(new PropertyValueFactory<>("showId"));
+
+        TableColumn<Show, String> showTitleColumn = new TableColumn<>("Show Title");
+        showTitleColumn.setCellValueFactory(new PropertyValueFactory<>("showTitle"));
+
+        TableColumn<Show, Integer> showNumOfSeasonsColumn = new TableColumn<>("Show number of seasons");
+        showNumOfSeasonsColumn.setCellValueFactory(new PropertyValueFactory<>("numOfSeasons"));
+
+        TableColumn<Show, Integer> showInitialYearColumn = new TableColumn<>("Show initial year");
+        showInitialYearColumn.setCellValueFactory(new PropertyValueFactory<>("initialYear"));
+
+        showTableView = new TableView<>();
+        showTableView.getItems().addAll(new ShowController().loadShows());
+        showTableView.getColumns().addAll(showIdColumn, showTitleColumn, showNumOfSeasonsColumn, showInitialYearColumn);
+
+        VBox vBox = new VBox();
+        vBox.getChildren().addAll(showTableView);
+
+        Scene scene = new Scene(vBox);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    /*private TreeView<String> treeView;
+
+    @Override
+    public void start(Stage stage) throws Exception {
+        stage.setTitle("Tree view");
+        treeView = new TreeView<>();
+        TreeItem<String> rootItem = new TreeItem<>("Programski jezici");
+        rootItem.setExpanded(true);
+        TreeItem<String> javaBranch = createBranch("Java", rootItem);
+        createBranch("Ruby", javaBranch);
+        createBranch("Scala", javaBranch);
+        createBranch("Kotlin", javaBranch);
+        TreeItem<String> javascriptBranch = createBranch("JavaScript", rootItem);
+        createBranch("React", javascriptBranch);
+        createBranch("Vue", javascriptBranch);
+        createBranch("Angular", javascriptBranch);
+
+        treeView = new TreeView<>(rootItem);
+        MultipleSelectionModel<TreeItem<String>> selectionModel = treeView.getSelectionModel();
+        ReadOnlyObjectProperty<TreeItem<String>> readOnlyObjectProperty = selectionModel.selectedItemProperty();
+        readOnlyObjectProperty.addListener((observable, oldValue, newValue)->{
+            if(newValue!= null ) {
+                System.out.println(newValue.getValue());
+            }
+        });
+
+        StackPane stackPane = new StackPane();
+        stackPane.getChildren().add(treeView);
+
+        Scene scene = new Scene(stackPane, 300, 300);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    private TreeItem<String> createBranch(String title, TreeItem<String> parent) {
+        TreeItem<String> branchItem = new TreeItem<>(title);
+        branchItem.setExpanded(true);
+        parent.getChildren().add(branchItem);
+        return branchItem;
+    }*/
+
+
+
+    /*private ListView<Person> personView;
+
+    @Override
+    public void start(Stage stage) throws Exception {
+        stage.setTitle("Lista java fx");
+
+        personView = new ListView<>();
+        ObservableList<Person> personObservableList = personView.getItems();
+        personObservableList.add(new Person("Imenic1","Prezimenic1"));
+        personObservableList.add(new Person("Imenic2","Prezimenic2"));
+        personObservableList.add(new Person("Imenic3","Prezimenic3"));
+        personObservableList.add(new Person("Imenic4","Prezimenic4"));
+        personObservableList.add(new Person("Imenic5","Prezimenic5"));
+        personObservableList.add(new Person("Imenic6","Prezimenic6"));
+        personObservableList.add(new Person("Imenic7","Prezimenic7"));
+        personObservableList.add(new Person("Imenic8","Prezimenic8"));
+        personObservableList.add(new Person("Imenic9","Prezimenic9"));
+        MultipleSelectionModel<Person> selectionModel = personView.getSelectionModel();
+        selectionModel.setSelectionMode(SelectionMode.MULTIPLE);
+
+        Button choosePersonBtn = new Button("Odaberi osobu");
+        choosePersonBtn.setOnAction(this::favouritePersonSelect);
+
+        VBox vBox = new VBox(10);
+        ObservableList<Node> children = vBox.getChildren();
+        children.addAll(personView, choosePersonBtn);
+
+        Scene scene = new Scene(vBox, 300,250);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    private void favouritePersonSelect(ActionEvent e) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Omiljene osobe:");
+        sb.append(System.lineSeparator());
+        ObservableList<Person> selectedPersons = personView.getSelectionModel().getSelectedItems();
+        for(Person person : selectedPersons) {
+            sb.append(person.toString());
+            sb.append(System.lineSeparator());
+        }
+        System.out.println(sb);
+    }*/
+
+    /*private ComboBox<String> moviesComboBox;
+
+    @Override
+    public void start(Stage stage) throws Exception {
+        stage.setTitle("Movie java fx");
+        moviesComboBox = new ComboBox<>();
+        ObservableList<String> movieList = moviesComboBox.getItems();
+        movieList.addAll("Joker", "Godfather","Batman", "Superman","Star Wars");
+        moviesComboBox.setPromptText("Odaberi film..");
+        moviesComboBox.setEditable(true);
+        moviesComboBox.setOnAction(this::onChooseMovieHandler);
+
+        Button chooseButton = new Button("Odaberi");
+        chooseButton.setOnAction(this::onChooseMovieHandler);
+
+        VBox vBox = new VBox();
+        vBox.setSpacing(10);
+        vBox.getChildren().addAll(moviesComboBox, chooseButton);
+
+        Scene scene = new Scene(vBox, 300,250);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    private void onChooseMovieHandler(Event event) {
+        System.out.println("Omiljeni film:"+moviesComboBox.getValue());
+    }*/
+
+    /*private ChoiceBox<String> fruitChoiceBox;
 
     //Combobox
     @Override
@@ -56,7 +203,7 @@ public class SceneFocus extends Application {
     private void handleFruitChoice(Event event) {
         String fruit = fruitChoiceBox.getValue();
         System.out.println("Voce je :"+fruit);
-    }
+    }*/
 
     //Checkbox
     /*private CheckBox cevapiCheckBox;
