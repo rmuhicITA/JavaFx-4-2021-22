@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<AnchorPane prefHeight="500.0" prefWidth="380.0"
+            style="-fx-background-color: white;"
+            BorderPane.alignment="CENTER">
+    <children>
+        <Text fill="#f21119" layoutX="40.0"
+              layoutY="397.0" strokeType="OUTSIDE" strokeWidth="0.0"
+              text="JavaFX">
+            <font>
+                <Font name="System Bold" size="36.0"/>
+            </font>
+        </Text>
+        <Text fill="#000000" layoutX="40.0" layoutY="420.0"
+              strokeType="OUTSIDE" strokeWidth="0.0"
+              text="Education Management">
+            <font>
+                <Font size="14.0"/>
+            </font>
+        </Text>
+        <ImageView fitHeight="248.0" fitWidth="217.0"
+                   layoutX="72.0" layoutY="86.0"
+                   pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@logo.png"/>
+            </image>
+        </ImageView>
+    </children>
+</AnchorPane>

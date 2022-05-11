@@ -1,15 +1,15 @@
 package com.example.sceneproject;
 
 import javafx.application.Application;
+import javafx.beans.property.StringProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class SceneFocus extends Application {
@@ -17,6 +17,64 @@ public class SceneFocus extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+
+    @Override
+    public void start(Stage stage) throws Exception {
+        stage.setTitle("JavaFx");
+        TextField userInputTextField = new TextField();
+        userInputTextField.setMaxWidth(200);
+        userInputTextField.setPromptText("Unesi svoje ime...");
+        Label welcomeLabel = new Label("Welcome: ");
+        //Labelu ispod ćemo vezati za userInputTextField
+        Label bindedLabel = new Label();
+        HBox bottomeTextBox = new HBox();
+        bottomeTextBox.getChildren().addAll(welcomeLabel, bindedLabel);
+        bottomeTextBox.setAlignment(Pos.CENTER);
+        VBox vBox = new VBox(10);
+        vBox.getChildren().addAll( userInputTextField, bottomeTextBox);
+        vBox.setAlignment(Pos.CENTER);
+        StringProperty bindedLabelProperty = bindedLabel.textProperty();
+        StringProperty userInputTextFieldProperty = userInputTextField.textProperty();
+        bindedLabelProperty.bind(userInputTextFieldProperty);
+        Scene scene = new Scene(vBox, 300, 300);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    /*@Override
+    public void start(Stage stage) throws Exception {
+        ToggleButton btn    = new ToggleButton("Shirt");
+        ToggleButton btn1   = new ToggleButton("Shoes");
+        ToggleButton btn2   = new ToggleButton("Jacket");
+
+        ToggleGroup group = new ToggleGroup();
+
+        btn.setToggleGroup(group);
+        btn1.setToggleGroup(group);
+        btn2.setToggleGroup(group);
+
+        HBox hBox = new HBox(btn,btn1,btn2);
+        Scene scene = new Scene(hBox,300,100);
+        stage.setScene(scene);
+        stage.show();
+    }*/
+
+    /*@Override
+    public void start(Stage stage) throws Exception {
+        ToggleButton toggleButton = new ToggleButton("Set match halftime");
+        GridPane root = new GridPane();
+        root.add(toggleButton, 0, 0);
+        Label oddsTitle = new Label("Odds:");
+        oddsTitle.setStyle("-fx-font-family:Verdana;-fx-font-size: 14px;-fx-font-weight: bold;");
+        Label odds = new Label("1\tX\t2\n1.1\t1.2\t1.3");
+        oddsTitle.visibleProperty().bind(toggleButton.selectedProperty());
+        odds.visibleProperty().bind(toggleButton.selectedProperty());
+        root.add(oddsTitle,0,1);
+        root.add(odds,0,2);
+        Scene scene = new Scene(root, 300, 300);
+        stage.setScene(scene);
+        stage.show();
+    }*/
 
     /*@Override
     public void start(Stage stage) throws Exception {
@@ -41,7 +99,7 @@ public class SceneFocus extends Application {
         stage.show();
     }*/
 
-    @Override
+    /*@Override
     public void start(Stage stage) throws Exception {
         stage.setTitle("JavaFx");
         GridPane gridPane = new GridPane();
@@ -81,7 +139,7 @@ public class SceneFocus extends Application {
         scene.getStylesheets().add(SceneFocus.class.getResource("Dark.css").toExternalForm());
         stage.setScene(scene);
         stage.show();
-    }
+    }*/
 
     /*private BorderPane borderPane;
 

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.BorderPane?>
+<BorderPane fx:id="borderPane"
+            prefHeight="500.0"
+            prefWidth="750.0"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.sceneproject.fx_example.Controller">
+    <left>
+        <fx:include source="leftLogin.fxml"/>
+    </left>
+    <center>
+        <fx:include source="centerLogin.fxml"/>
+    </center>
+</BorderPane>

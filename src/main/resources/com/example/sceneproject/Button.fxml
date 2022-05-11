@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?language javascript?>
+<?import javafx.scene.control.*?>
+
+<!--<Button fx:id="mybutton" text="Hello World" xmlns:fx ="http://javafx.com/fxml/1">
+    Hello
+</Button>-->
+
+<!--<Button fx:id="mybutton" text="Hello World" xmlns:fx="http://javafx.com/fxml/1"/>-->
+<Button fx:id="mybutton" text="Click me" onAction="#handleButtonClick" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sceneproject.ButtonController">
+</Button>
